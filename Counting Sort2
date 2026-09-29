@@ -1,0 +1,47 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+    static int[] countingSort(int[] arr){
+        int max = arr[0];
+        int min = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > max)
+                max = arr[i];
+            if (arr[i] < min)
+                min = arr[i];
+        }
+        int range=max-min+1;
+        int count[]=new int[range];
+        int output[]=new int[arr.length];
+        for(int j:arr){
+            count[j-min]++;
+        }
+        for(int i=1;i<count.length;i++){
+            count[i]+=count[i-1];
+        }
+        for(int i=arr.length-1;i>=0;i--){
+            output[count[arr[i]-min]-1]=arr[i];
+            count[arr[i]-min]--;
+        }
+        return output;
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        int[] arr=new int[a];
+        for(int i=0;i<a;i++){
+            arr[i]=sc.nextInt();
+        }
+      int[] sorted = countingSort(arr);
+
+      for (int i = 0; i < sorted.length; i++) {
+               System.out.print(sorted[i] + " ");
+      }
+    }
+}
